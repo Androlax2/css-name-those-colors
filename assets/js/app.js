@@ -94,17 +94,21 @@ $convertButton.addEventListener('click', () => {
 	let cssColorVariables = {};
 
 	colors.forEach(hexColor => {
-		hexColor = convertToValidHexCode(hexColor);
-		console.log({
-			hexColor
-		})
-		console.log(hexColor.match(hexColorPattern));
+		hexColor = convertToValidHexCode(hexColor.trim());
 		if (hexColor.match(hexColorPattern)) {
 			const ntcColor = ntc.name(hexColor);
 			if (!ntcColor[1].includes('Invalid') && ntcColor) {
+				let cssVariableName;
 				const ntcColorFormatted = removeAllWhiteSpaces(lowerCaseFirstCharacter(ntcColor[1]));
+				const cssColorVariablesKeys = Object.keys(cssColorVariables);
+				const numberOfExistingVariableKey = cssColorVariablesKeys.filter(colorName => new RegExp(`${ntcColorFormatted}`).test(colorName)).length;
 
-				cssColorVariables[`--${ntcColorFormatted}Color`] = hexColor;
+				if (numberOfExistingVariableKey === 0) {
+					cssVariableName = `--${ntcColorFormatted}Color`;
+				} else {
+					cssVariableName = `--${ntcColorFormatted}${numberOfExistingVariableKey + 1}Color`;
+				}
+				cssColorVariables[cssVariableName] = hexColor;
 			}
 		}
 	});
