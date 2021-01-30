@@ -1,0 +1,16 @@
+.wrapper {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr;
+    max-width: 300px;
+}
+
+ul {
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    resize: vertical;
+}
