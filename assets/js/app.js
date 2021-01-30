@@ -97,7 +97,7 @@ $convertButton.addEventListener('click', () => {
 		hexColor = convertToValidHexCode(hexColor.trim());
 		if (hexColor.match(hexColorPattern)) {
 			const ntcColor = ntc.name(hexColor);
-			if (!ntcColor[1].includes('Invalid') && ntcColor) {
+			if (!ntcColor[1].includes('Invalid') && ntcColor && (Object.values(cssColorVariables).indexOf(hexColor) <= -1)) {
 				let cssVariableName;
 				const ntcColorFormatted = removeAllWhiteSpaces(lowerCaseFirstCharacter(ntcColor[1]));
 				const cssColorVariablesKeys = Object.keys(cssColorVariables);
