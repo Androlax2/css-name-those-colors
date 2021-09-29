@@ -79,12 +79,15 @@ const convertToValidHexCode = hexColor => {
 }
 
 const $convertButton = document.querySelector('#button');
-const $code = document.querySelector('code');
-const defaultCodeText = `:root {
+const $codeCss = document.querySelector('code.css');
+const $codeScss = document.querySelector('code.scss');
+const defaultCodeTextCss = `:root {
     %COLORS%
 }`;
+const defaultCodeTextScss = `%COLORS%`;
 $convertButton.addEventListener('click', () => {
-	$code.innerHTML = defaultCodeText;
+	$codeCss.innerHTML = defaultCodeTextCss;
+	$codeScss.innerHTML = defaultCodeTextScss;
 	let colors = [];
 	jQuery('#colors li').each(function(i, elem) {
 		colors.push(jQuery(elem).text());
@@ -114,15 +117,22 @@ $convertButton.addEventListener('click', () => {
 	});
 
 	let cssColorsVariablesText = '';
+	let scssColorsVariablesText = '';
 	for (const cssColorVariable in cssColorVariables) {
 		const cssColorName = cssColorVariable;
 		const cssColorHex = cssColorVariables[cssColorVariable];
 		cssColorsVariablesText += `${cssColorName}: ${cssColorHex};\n    `;
+		scssColorsVariablesText += `$${cssColorName.replace('--','')}: ${cssColorHex};\n    `;
 	}
 
-	let codeText = $code.innerText;
-	codeText = codeText.replace('%COLORS%', cssColorsVariablesText);
-	$code.innerText = codeText;
+	let codeTextCss = $codeCss.innerText;
+	codeTextCss = codeTextCss.replace('%COLORS%', cssColorsVariablesText);
+	$codeCss.innerText = codeTextCss;
 
-	hljs.highlightBlock($code);
+	let codeTextScss = $codeScss.innerText;
+	codeTextScss = codeTextScss.replace('%COLORS%', scssColorsVariablesText);
+	$codeScss.innerText = codeTextScss;
+
+	hljs.highlightBlock($codeCss);
+	hljs.highlightBlock($codeScss);
 });
